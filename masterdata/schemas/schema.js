@@ -6,6 +6,7 @@ import schemaTypes from "all:part:@sanity/base/schema-type";
 import didacticChallenge from "./didactic_challenge";
 import digitalAffordance from "./digital_affordance";
 import pageEvaluation from "./page_evaluation";
+import challengeEvaluation from "./challenge_evaluation";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -17,5 +18,6 @@ export default createSchema({
     didacticChallenge,
     digitalAffordance,
     pageEvaluation,
+    challengeEvaluation,
   ]),
 });
