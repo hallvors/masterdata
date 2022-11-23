@@ -25,7 +25,7 @@ export default {
           {
             name: "collaborative",
             type: "boolean",
-            title: "Krever lærerinnsats",
+            title: "Tilrettelegger for samarbeid",
             description: "I følge lærerveiledning er affordansen beregnet på å brukes i gruppe-aktiviteter",
           },
           {
