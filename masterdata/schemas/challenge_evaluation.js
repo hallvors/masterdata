@@ -45,6 +45,7 @@ export default {
           //subtitle: "challenge.title",
           media: "screenshot",
           score: "score",
+          teach: "requires_teacher",
         },
         prepare: (data) => {
           if (
@@ -53,6 +54,9 @@ export default {
             data.title.indexOf(" - " + data.score) === -1
           ) {
             data.title += " - " + data.score;
+          }
+          if (data.teach && data.title.indexOf(' - lærerstyrt') === -1) {
+            data.title += ' - lærerstyrt';
           }
           return data;
         },
