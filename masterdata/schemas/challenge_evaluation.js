@@ -23,6 +23,12 @@ export default {
             description: "I følge lærerveiledning er affordansen beregnet på å brukes som grunnlag for lærer-styrte aktiviteter",
           },
           {
+            name: "collaborative",
+            type: "boolean",
+            title: "Krever lærerinnsats",
+            description: "I følge lærerveiledning er affordansen beregnet på å brukes i gruppe-aktiviteter",
+          },
+          {
             name: "comment",
             type: "text",
             title: "Kommentar",
