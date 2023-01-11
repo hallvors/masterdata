@@ -5,7 +5,7 @@
   },
   "api": {
     "projectId": "fbbshc6p",
-    "dataset": "aunivers"
+    "dataset": "skolen-cdu"
   },
   "plugins": [
     "@sanity/base",
