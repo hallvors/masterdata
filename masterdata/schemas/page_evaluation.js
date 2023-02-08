@@ -102,7 +102,13 @@ export default {
     {
       name: "screenshot",
       type: "image",
-      title: "Skjermdump",
+      title: "Skjermdump - hovedbilde",
     },
+    {
+      name: "screenshots",
+      title: "Ekstra bilder",
+      type: 'array',
+      of: [{type: 'image'}]
+    }
   ],
 };
