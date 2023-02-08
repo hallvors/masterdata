@@ -14,6 +14,11 @@ export default {
       title: "Kapittel.side",
     },
     {
+      name: "url",
+      type: "url",
+      title: "URL",
+    },
+    {
       name: "evaluations",
       type: "array",
       title: "Sideevaluering",
