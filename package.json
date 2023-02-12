@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@sanity/cli": "^2.35.0",
-    "@sanity/client": "^3.4.1"
+    "@sanity/client": "^3.4.1",
+    "dotenv": "^16.0.3"
   }
 }
