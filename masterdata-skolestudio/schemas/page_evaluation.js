@@ -14,6 +14,11 @@ export default {
       title: "Kapittel.side",
     },
     {
+      name: "screenshot",
+      type: "image",
+      title: "Skjermdump - hovedbilde",
+    },
+    {
       name: "url",
       type: "url",
       title: "URL",
@@ -21,7 +26,8 @@ export default {
     {
       name: "evaluations",
       type: "array",
-      title: "Sideevaluering",
+      title: "Affordanser (kommentert)",
+      description: "Muligens også knyttet til spesifikke didaktiske mål, der det kan begrunnes",
       of: [
         {
           type: "object",
@@ -105,9 +111,34 @@ export default {
       ],
     },
     {
-      name: "screenshot",
-      type: "image",
-      title: "Skjermdump - hovedbilde",
+      name: "goals",
+      title: "Læreplanmål",
+      type: "array",
+      of: [{ type: "reference", to: [{type: "official_goal"}] }],
+    },
+    {
+      name: "challenge",
+      title: "Didaktiske utfordringer",
+      description: "Andre didaktiske utfordringer (utover læreplanmål) som side ser ut til å ivareta. Begrunnes i kommentarfelt.",
+      type: "array",
+      of: [{ type: "reference", to: [{type: "didactic_challenge"}] }],
+    },
+    {
+      name: "requires_teacher",
+      type: "boolean",
+      title: "Krever lærerinnsats",
+      description: "I følge lærerveiledning er sida beregnet på å brukes som grunnlag for lærer-styrte aktiviteter",
+    },
+    {
+      name: "collaborative",
+      type: "boolean",
+      title: "Tilrettelegger for samarbeid",
+      description: "I følge lærerveiledning er sida beregnet på å brukes i gruppe-aktiviteter (ikke i plenum)",
+    },
+    {
+      name: "comment",
+      type: "text",
+      title: "Kommentar",
     },
     {
       name: "screenshots",
@@ -115,11 +146,5 @@ export default {
       type: 'array',
       of: [{type: 'image'}]
     },
-    {
-      name: "goals",
-      title: "Læreplanmål",
-      type: "array",
-      of: [{type: "official_goal"}]
-    }
   ],
 };
