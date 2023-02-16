@@ -146,11 +146,5 @@ export default {
       type: 'array',
       of: [{type: 'image'}]
     },
-    {
-      name: "goals",
-      title: "Læreplanmål",
-      type: "array",
-      of: [{type: "official_goal"}]
-    }
   ],
 };
