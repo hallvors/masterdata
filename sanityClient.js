@@ -1,4 +1,4 @@
-require('dotenv').config()
+require('dotenv').config();
 
 const createSanityClient = require('@sanity/client');
 const sanityClient = createSanityClient({
@@ -10,7 +10,7 @@ const sanityClient = createSanityClient({
   });
 
 sanityClient.sanityClientAunivers = sanityClient;
-  
+
 sanityClient.sanityClientSkolestudio = createSanityClient({
     token: process.env.SANITY_TOKEN_SKOLESTUDIO,
     projectId: '7xashn1s',
@@ -21,12 +21,12 @@ sanityClient.sanityClientSkolestudio = createSanityClient({
 
 sanityClient.sanityClientSkolenMin = createSanityClient({
     token: process.env.SANITY_TOKEN_SKOLENMIN,
-    projectId: 'fbbshc6p',
+    projectId: 'bkac9q0w',
     dataset: 'skolen-cdu',
     apiVersion: '2022-10-30',
     useCdn: false,
   });
 
 
-  
+
 module.exports = sanityClient

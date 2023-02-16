@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "deploy": "cd masterdata-skolenmin && sanity deploy && cd ../masterdata-skolestudio && sanity deploy && cd ../masterdata && sanity deploy"
   },
   "author": "Hallvord Reiar Michaelsen Steen",
   "license": "ISC",

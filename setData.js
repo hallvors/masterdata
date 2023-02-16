@@ -4,14 +4,16 @@ const fromSection = process.argv[2];
 const toSection = process.argv[3];
 
 const currentClient = client.sanityClientSkolestudio;
+const toLevel = 7;
+const fromLevel = 7;
 
 async function setData() {
-    const existingDoc = await currentClient.fetch('*[chapterpage == $id][0]', {id: fromSection});
+    const existingDoc = await currentClient.fetch('*[chapterpage == $chpg && level == $level][0]', {chpg: fromSection, level:fromLevel});
     console.log(existingDoc.evaluations)
     const patch = {
         evaluations: existingDoc.evaluations
     }
-    const toDoc = await currentClient.fetch('*[chapterpage == $id][0]', {id: toSection});
+    const toDoc = await currentClient.fetch('*[chapterpage == $chpg && level == $level][0]', {chpg: toSection, level: toLevel});
     const data = await currentClient.patch(toDoc._id)
       .set(patch)
       .commit();
