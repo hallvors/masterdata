@@ -7,6 +7,7 @@ import didacticChallenge from "./didactic_challenge";
 import digitalAffordance from "./digital_affordance";
 import pageEvaluation from "./page_evaluation";
 import challengeEvaluation from "./challenge_evaluation";
+import officialGoal from "./official_goal";
 
 // Then we give our schema to the builder and provide the result to Sanity
 export default createSchema({
@@ -19,5 +20,6 @@ export default createSchema({
     digitalAffordance,
     pageEvaluation,
     challengeEvaluation,
+    officialGoal,
   ]),
 });
