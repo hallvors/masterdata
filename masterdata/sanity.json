@@ -5,13 +5,14 @@
   },
   "api": {
     "projectId": "fbbshc6p",
-    "dataset": "skolen-cdu"
+    "dataset": "aunivers"
   },
   "plugins": [
     "@sanity/base",
     "@sanity/default-layout",
     "@sanity/default-login",
-    "@sanity/desk-tool"
+    "@sanity/desk-tool",
+    "@sanity/vision"
   ],
   "env": {
     "development": {
