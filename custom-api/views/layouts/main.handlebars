@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>Masterdata hjelpeUI og API</title>
+    <script src="/static/js/apiclient.js"></script>
+    <script src="/static/js/domhelpers.js"></script>
+    <style>
+        div {
+            border-top: 2px grey solid;
+            clear: both;
+        }
+        select {
+            max-width: 20%;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>Masterdata hjelpe-UI og API</h1>
+    <form id="filterform">
+        Verk: <select name="work">
+            <option value="SkolenMin">Skolen min, CDU</option>
+            <option value="Aunivers">Aunivers, Aschehoug</option>
+            <option value="Skolestudio">Skolestudio, Gyldendal</option>
+        </select>
+        Klasse: <input type="number" name="level">
+        Kapittel/side: <input name="chapterpage">
+        <label><input type="checkbox" name="requires_teacher">Lærerstyrt</label>
+        <hr>Filtrer på referanse(r):
+        <select name="didactic_challenge"></select>
+        <select name="digital_affordance"></select>
+        <select name="goal"></select>
+        <input type="submit" value="Filtrer">
+    </form>
+    <script>
+        // global variables
+        var selectedWork = document.getElementsByName('work')[0].value;
+        var affordances = [];
+        var goals = [];
+        var didactics = [];
+
+        function filtersubmit(evt) {
+            evt.preventDefault();
+            return getFilteredList(selectedWork, evt.target.form || evt.target)
+                .then(function (data) {
+                    console.log(data);
+                    renderPageEvalData(document.getElementsByName('work')[0].value, data);
+                })
+                .catch(function (error) {
+                    console.error(error);
+                });
+        }
+        document.getElementById('filterform').onsubmit = filtersubmit;
+        for (var i = 1 /* omit select! */, el; el = document.getElementById('filterform').elements[i]; i++) {
+            el.oninput = el.onchange = filtersubmit;
+        }
+
+        function refreshSelectedWork() {
+            selectedWork = document.getElementsByName('work')[0].value;
+            return Promise.all([
+                getDocuments(selectedWork, 'didactic_challenge'),
+                getDocuments(selectedWork, 'digital_affordance'),
+                getDocuments(selectedWork, 'official_goal'),
+            ])
+                .then(results => {
+                    didactics = results[0];
+                    affordances = results[1];
+                    goals = results[2];
+                    updateSelect(document.getElementsByName('didactic_challenge')[0], didactics);
+                    updateSelect(document.getElementsByName('digital_affordance')[0], affordances);
+                    updateSelect(document.getElementsByName('goal')[0], goals);
+                });
+        }
+
+        function updateSelect(selectElm, data) {
+            data.sort((a, b) => {
+                return (a.title || a.goal) < (b.title || b.goal) ? -1 : 1
+            });
+            while (selectElm.firstChild) {
+                selectElm.removeChild(selectElm.firstChild);
+            }
+            selectElm.appendChild(elm('option'));
+            data.forEach(item => {
+                selectElm.appendChild(elm('option', {value: item._id}, item.title || item.goal))
+            })
+        }
+
+        document.getElementsByName('work')[0].onchange = function (evt) {
+            refreshSelectedWork(evt).then(() => {
+                filtersubmit(evt);
+            });
+        }
+        window.onload = refreshSelectedWork;
+    </script>
+
+    <form>
+        {{{body}}}
+    </form>
+</body>
+
+</html>
