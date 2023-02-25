@@ -11,7 +11,9 @@ async function setData() {
     const existingDoc = await currentClient.fetch('*[chapterpage == $chpg && level == $level][0]', {chpg: fromSection, level:fromLevel});
     console.log(existingDoc.evaluations)
     const patch = {
-        evaluations: existingDoc.evaluations
+        challenge: existingDoc.challenge,
+        evaluations: existingDoc.evaluations,
+        //goals: existingDoc.goals
     }
     const toDoc = await currentClient.fetch('*[chapterpage == $chpg && level == $level][0]', {chpg: toSection, level: toLevel});
     const data = await currentClient.patch(toDoc._id)

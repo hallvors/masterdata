@@ -1,23 +1,26 @@
 const client = require('./sanityClient')
-const {Patch, Transaction} = require('@sanity/client');
+const { Patch, Transaction } = require('@sanity/client');
 const type = process.argv[2];
 const { execSync } = require('node:child_process');
 const fromClient = client.sanityClientSkolestudio;
-const toClient = client.sanityClientAunivers;
+const toClient = client.sanityClientSkolenMin;
 
 // The Skolestudio dataset has the most up-to-date sets of affordances
 // and challenges. We want to mirror both the descriptions, meta data and IDs
 
 async function setData() {
-    const newTypes = await fromClient.fetch('*[_type == $type]', {type});
-    const oldTypes = await toClient.fetch('*[_type == $type]', {type});
+    if (!type) {
+        throw new Error('missing type');
+    }
+    const newTypes = await fromClient.fetch('*[_type == $type]', { type });
+    const oldTypes = await toClient.fetch('*[_type == $type]', { type });
 
-    for (let i = 0; i<newTypes.length; i++) {
+    for (let i = 0; i < newTypes.length; i++) {
         let same = oldTypes.find(item => item._id === newTypes[i]._id)
         if (!same) {
             console.log('missing (by ID) ' + newTypes[i].title);
             let newDoc = await toClient.create(newTypes[i]);
-            console.log(newDoc.title+ ', ' + newDoc._id);
+            console.log(newDoc.title + ', ' + newDoc._id);
             let oldTypeByTitle = oldTypes.find(item => item.title === newTypes[i].title);
             if (oldTypeByTitle) {
                 console.log('will try to remap from old item with same title.. ' + newTypes[i].title)
@@ -26,12 +29,26 @@ async function setData() {
                 let newId = newDoc._id;
                 execSync(`node remap.js ${oldId} ${newId}`);
             }
+        } else {
+            const updatedType = newTypes[i];
+            const updates = {};
+            const props = ['title', 'description', 'didactic_category'].forEach(prop => {
+                if (updatedType[prop] !== same[prop]) {
+                    updates[prop] = updatedType[prop];
+                }
+            });
+            if (Object.keys(updates).length) {
+                console.log('updating ' + updatedType.title)
+                await toClient.patch(same._id)
+                    .set(updates)
+                    .commit();
+            }
         }
     }
 
     for (let i = 0; i < oldTypes.length; i++) {
         let lastIdx = oldTypes.findLastIndex(item => item.title === oldTypes[i].title);
-        console.log({i, lastIdx})
+        console.log({ i, lastIdx })
         if (lastIdx !== i) {
             // duplicates
             let fromId;

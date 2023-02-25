@@ -1,9 +1,9 @@
-const client = require('./sanityClient')
+const client = require('./sanityClient');
 
 const fromId = process.argv[2];
 const toId = process.argv[3];
 
-const currentClient = client.sanityClientSkolenMin;
+const currentClient = client.sanityClientAunivers;
 
 async function setData() {
     const refDocs = await currentClient.fetch('*[references($id)]', {id: fromId});
