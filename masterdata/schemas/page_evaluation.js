@@ -48,29 +48,6 @@ export default {
                 { type: "challenge_evaluation" }
               ]
             },
-            /*
-            {
-              name: "challenge",
-              type: "reference",
-              to: [{ type: "didactic_challenge" }],
-            },
-            {
-              name: "score",
-              type: "number",
-              title: "Klassifisering",
-              description:
-                "0: brukes negativt - motarbeider målet, 1: har ingen effekt,  2: brukes svakt, 3: brukes vellykket",
-            },
-            {
-              name: "comment",
-              type: "text",
-              title: "Kommentar",
-            },
-            {
-              name: "screenshot",
-              type: "image",
-              title: "Skjermdump",
-            },*/
           ],
           preview: {
             select: {
@@ -95,11 +72,11 @@ export default {
               }
               const subtitles = []
               if (data.subtitle) {
-                subtitles.push(data.subtitle + ' - ' + data.score);
+                subtitles.push(data.subtitle + (data.score ? ' - ' + data.score : '' ));
               }
               for (let i = 1; i < 6; i++) {
                 if (data['subtitle' + i]) {
-                  subtitles.push(data['subtitle' + i] + ' - ' + data['score' + i]);
+                  subtitles.push(data['subtitle' + i] + (data['score' + i] ? ' - ' + data['score' + i] : ''));
                 }
               }
               data.subtitle = subtitles.join(', ');
@@ -126,7 +103,7 @@ export default {
     {
       name: "requires_teacher",
       type: "boolean",
-      title: "Krever lærerinnsats",
+      title: "Lærerstyrt",
       description: "I følge lærerveiledning er sida beregnet på å brukes som grunnlag for lærer-styrte aktiviteter",
     },
     {
@@ -147,4 +124,19 @@ export default {
       of: [{type: 'image'}]
     },
   ],
+  orderings: [
+    {
+      title: 'Klasse og kapittel, stigende',
+      name: 'levelChapterpage',
+      by: [
+        {
+          field: 'level', direction: 'asc',
+        },
+        {
+          field: 'chapterpage', direction: 'asc',
+        },
+      ]
+    }
+
+  ]
 };

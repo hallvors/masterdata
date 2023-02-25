@@ -35,9 +35,24 @@ export default {
     },
     {
       type: "string",
+      name: "didactic_category",
+      title: "Ny didaktisk kategori",
+      options: {
+        list: [
+          "Elev - produkt",
+          "Elev - prosess",
+          "Elev - fagovergripende",
+          "Lærers - eksplisitt",
+          "Lærers - implisitt",
+        ],
+      },
+    },
+    {
+      type: "string",
       name: "source",
       title: "Kilde",
       options: {
+        hidden: true,
         list: [
           "Kolstø, Naturfagdidaktikk",
           "Sinnes",
