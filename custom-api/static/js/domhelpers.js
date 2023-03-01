@@ -1,3 +1,11 @@
+function mkSanityStudioUrl(work, id) {
+    const server = {
+        'skolenmin': 'hrms-masterdata-skolenmin',
+        'skolestudio': 'hrms-masterdata-skolestudio',
+        'aunivers': 'hrms-masteroppgave-data',
+    }[work.toLowerCase()];
+    return `https://${server}.sanity.studio/desk/page_evaluation;${id}`;
+}
 
 function renderPageEvalData(work, data) {
     const main = document.getElementsByTagName('main')[0];
@@ -11,7 +19,8 @@ function renderPageEvalData(work, data) {
         div.appendChild(elm('p', null, elm('label', null, [
             elm('input', { type: 'checkbox', value: data[i]._id, name: 'id' }),
             elm('b', null, data[i].level + ' ' + data[i].chapterpage),
-            elm('a', { href: data[i].url }, '>>'),
+            data[i].url ? elm('a', { href: data[i].url }, '>>') : null,
+            elm('a', { href: mkSanityStudioUrl(work, data[i]._id) }, ' [S]'),
         ])))
         div.appendChild(elm('p', null, 'Lærerstyrt: '  + (data[i].requires_teacher ? 'ja' : 'nei') ))
         // requires global var goals
