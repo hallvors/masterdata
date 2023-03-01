@@ -3,7 +3,7 @@
 const type = process.argv[2];
 const name = process.argv[3];
 
-if (!type && name) {
+if (!(type && name)) {
   throw new TypeError('input missing, needs doc type and name')
 }
 
