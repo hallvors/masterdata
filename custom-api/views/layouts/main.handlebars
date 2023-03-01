@@ -78,13 +78,15 @@
             data.sort((a, b) => {
                 return (a.title || a.goal) < (b.title || b.goal) ? -1 : 1
             });
+            const selected = selectElm.value;
             while (selectElm.firstChild) {
                 selectElm.removeChild(selectElm.firstChild);
             }
             selectElm.appendChild(elm('option'));
             data.forEach(item => {
                 selectElm.appendChild(elm('option', {value: item._id}, item.title || item.goal))
-            })
+            });
+            selectElm.value = selected;
         }
 
         document.getElementsByName('work')[0].onchange = function (evt) {
