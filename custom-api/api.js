@@ -16,7 +16,10 @@ router.get('/filtered/:work', (req, res, next) => {
         digital_affordance: 'references(${{name}})',
         goal: 'references(${{name}})',
     })
-
+    // We don't list absolutely everything, only list things if there are filters
+    if (Object.keys(filterData.params).length === 0) {
+        return res.json([]);
+    }
     console.log('will query ' + 'sanityClient' + req.params.work, filterData.query, filterData.params);
 
     return theClient.fetch('*[' + filterData.query + '] | order(level asc, chapterpage asc) ', filterData.params)
