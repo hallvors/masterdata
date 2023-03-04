@@ -1,10 +1,12 @@
 const express = require('express');
 const {engine} = require('express-handlebars');
 const bodyParser = require('body-parser');
+const formData = require('express-form-data');
 
 const api = require('./api');
 const app = express();
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(formData.parse());
 app.use(bodyParser.json());
 
 app.use('/api', api);

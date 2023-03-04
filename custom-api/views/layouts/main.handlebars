@@ -43,7 +43,10 @@
 
         function filtersubmit(evt) {
             evt.preventDefault();
-            return getFilteredList(selectedWork, evt.target.form || evt.target)
+            showFilteredData(evt.target.form || evt.target);
+        }
+        function showFilteredData(form){
+            return getFilteredList(selectedWork, form)
                 .then(function (data) {
                     console.log(data);
                     renderPageEvalData(document.getElementsByName('work')[0].value, data);
@@ -59,6 +62,7 @@
 
         function refreshSelectedWork() {
             selectedWork = document.getElementsByName('work')[0].value;
+            document.getElementById('updateform').action = `/api/batchpatch/${selectedWork}`;
             return Promise.all([
                 getDocuments(selectedWork, 'didactic_challenge'),
                 getDocuments(selectedWork, 'digital_affordance'),
@@ -71,6 +75,10 @@
                     updateSelect(document.getElementsByName('didactic_challenge')[0], didactics);
                     updateSelect(document.getElementsByName('digital_affordance')[0], affordances);
                     updateSelect(document.getElementsByName('goal')[0], goals);
+                    // update form elements
+                    updateSelect(document.getElementsByName('challenge')[0], didactics);
+                    updateSelect(document.getElementsByName('affordance')[0], affordances);
+                    updateSelect(document.getElementsByName('goals')[0], goals);
                 });
         }
 
@@ -97,9 +105,45 @@
         window.onload = refreshSelectedWork;
     </script>
 
-    <form>
+    <form method="post" id="updateform" >
         {{{body}}}
+
+        <div style="position: fixed; bottom: 0; background-color: white">
+        <hr>
+        <label><input type="checkbox" name="requires_teacher">Lærerstyrt</label>
+        <label><input type="checkbox" name="collaborative">Samarbeid</label>
+        <hr>
+        <select name="challenge"></select>
+        <select name="affordance"></select>
+        <select name="goals"></select>
+        <input type="submit" value="Endre valgte">
+        <input type="button" value="merk alle (av/på)" id="toggler">
+</div>
     </form>
+    <script>
+        document.getElementById('updateform').onsubmit = function(evt) {
+            evt.preventDefault();
+            const form = evt.target;
+            const fd = new FormData(form);
+            fetch(form.action, {
+                method: 'post',
+                body: fd
+            })
+            .then(response => {
+                console.log(response);
+                if (!response.ok) {
+                    alert('ops..!? Sjekk konsollen for feilmeldinger');
+                }
+                showFilteredData(document.getElementById('filterform'));
+            });
+        }
+        document.getElementById('toggler').onclick = function() {
+            const list = document.querySelectorAll('main input[type=checkbox]');
+            for (let i = 0; i < list.length; i++) {
+                list[i].checked = !list[i].checked;
+            }
+        }
+    </script>
 </body>
 
 </html>

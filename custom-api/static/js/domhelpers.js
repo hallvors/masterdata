@@ -12,12 +12,14 @@ function renderPageEvalData(work, data) {
     main.innerHTML = '';
     for (var i = 0; i < data.length; i++) {
         var div = main.appendChild(elm('div'));
-        div.appendChild(elm('img', {
-            align: 'right',
-            src: '/api/image/' + work + '?asset=' + encodeURIComponent(JSON.stringify(data[i].screenshot))
-        }));
+        if (data[i].screenshot) {
+            div.appendChild(elm('img', {
+                align: 'right',
+                src: '/api/image/' + work + '?asset=' + encodeURIComponent(JSON.stringify(data[i].screenshot))
+            }));
+        }
         div.appendChild(elm('p', null, elm('label', null, [
-            elm('input', { type: 'checkbox', value: data[i]._id, name: 'id' }),
+            elm('input', { type: 'checkbox', value: data[i]._id, name: 'ids' }),
             elm('b', null, data[i].level + ' ' + data[i].chapterpage),
             data[i].url ? elm('a', { href: data[i].url }, '>>') : null,
             elm('a', { href: mkSanityStudioUrl(work, data[i]._id) }, ' [S]'),
@@ -41,14 +43,14 @@ function renderPageEvalData(work, data) {
         }
         // requires global vars affordances and didactics
         if (data[i].evaluations && data[i].evaluations.length && didactics.length && affordances.length) {
-            div.appendChild(elm('h2', null, 'Sidevurderinger'));
+            div.appendChild(elm('h2', null, 'Affordanser og vurderinger'));
             div.appendChild(elm('ul', null, data[i].evaluations.map(theEval => {
                 // affordance._ref
                 // challenges [] .challenge._ref , requires_teacher, score
                 const theOne = affordances.find(item => item._id === theEval.affordance._ref);
                 return elm('li', null, [
                     theOne.title,
-                    theEval.challenges && theEval.challenges.length ? 
+                    theEval.challenges && theEval.challenges.length ?
                     elm('ul', null, theEval.challenges.map(theChallenge => {
                         const theOne = didactics.find(item => item._id === theChallenge.challenge._ref);
                         return elm('li', null, [elm('b', null, theOne.title), ' ', theChallenge.score || '' ]);
